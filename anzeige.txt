@@ -1,0 +1,23 @@
+Java Developer (m/w/d) — p.how GmbH
+
+Wir sind die p.how GmbH, eine Softwareagentur im 7. Bezirk in Wien, und bauen
+Fachanwendungen für Kunden aus Industrie und öffentlicher Verwaltung.
+
+Deine Aufgaben
+- Weiterentwicklung unserer Backend-Services mit Java und Spring Boot
+- Mitarbeit am Frontend auf Basis von Angular
+- Code Reviews und technische Abstimmung im Team
+
+Das bringst du mit
+- Mehrjährige Erfahrung in der Java-Entwicklung
+- Sicherer Umgang mit relationalen Datenbanken
+- Sehr gute Deutschkenntnisse
+
+Unser Angebot
+- 2 Tage Homeoffice pro Woche, die übrigen Tage im Büro in Wien
+- Flexible Arbeitszeiten, kein All-in-Vertrag
+- Für diese Position bieten wir ein Bruttomonatsgehalt ab EUR 3.954,-
+  bei Vollzeit (38,5 Stunden). Bei entsprechender Qualifikation und
+  Erfahrung ist mehr möglich.
+
+Wir freuen uns auf deine Bewerbung an jobs@p-how.example.

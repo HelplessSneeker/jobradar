@@ -1,4 +1,4 @@
-package at.bfnoessler.at.jobradar;
+package at.bfnoessler.jobradar;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
