@@ -20,7 +20,7 @@ class DeepSeekClient {
 	private static final String SYSTEM_PROMPT = """
 			Du extrahierst Daten aus Stellenanzeigen und antwortest ausschliesslich mit einem JSON-Objekt \
 			in genau diesem Format:
-			{"company": "p.how GmbH", "stack": ["Java", "Spring Boot", "Angular"], "salaryMinYearly": 52500, "remote": "hybrid", "location": "Wien"}
+			{"company": "Muster Software GmbH", "stack": ["Python", "Django"], "salaryMinYearly": 48000, "remote": "onsite", "location": "Graz"}
 			Regeln:
 			- Was nicht in der Anzeige steht, ist null. Nichts raten, nichts erfinden.
 			- salaryMinYearly ist das Jahresbrutto in EUR als ganze Zahl; Monatsangaben mal 14.
@@ -65,7 +65,7 @@ class DeepSeekClient {
 				.body(ChatResponse.class);
 
 		Usage usage = response.usage();
-		log.info("DeepSeek usage: prompt_tokens={} prompt_cache_hit_tokens={} completion_tokens={} cost={} EUR",
+		log.info("DeepSeek usage: prompt_tokens={} prompt_cache_hit_tokens={} completion_tokens={} cost={} USD",
 				usage.promptTokens(), usage.promptCacheHitTokens(), usage.completionTokens(), cost(usage));
 
 		return this.objectMapper.readValue(response.choices().getFirst().message().content(), JobPosting.class);
@@ -74,10 +74,10 @@ class DeepSeekClient {
 	/** Cache-Treffer sind billiger, der Rest der Prompt-Tokens zahlt den vollen Eingabepreis. */
 	private String cost(Usage usage) {
 		int uncachedPromptTokens = usage.promptTokens() - usage.promptCacheHitTokens();
-		double eur = (uncachedPromptTokens * this.inputPrice
+		double usd = (uncachedPromptTokens * this.inputPrice
 				+ usage.promptCacheHitTokens() * this.cacheHitPrice
 				+ usage.completionTokens() * this.outputPrice) / 1_000_000;
-		return String.format(Locale.ROOT, "%.6f", eur);
+		return String.format(Locale.ROOT, "%.6f", usd);
 	}
 
 	record ChatRequest(String model, List<Message> messages, Thinking thinking,

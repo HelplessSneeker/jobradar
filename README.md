@@ -2,8 +2,8 @@
 
 jobradar nimmt den Text einer Stellenanzeige und gibt die interessanten Felder strukturiert als JSON
 zurück: Firma, Tech-Stack, Mindestgehalt als Jahresbrutto, Remote-Modell und Ort. Die Extraktion
-macht die DeepSeek-API, der Dienst selbst besteht nur aus einem Controller, einem HTTP-Client und
-zwei Records.
+macht die DeepSeek-API, der Dienst selbst besteht nur aus einem Controller, einem HTTP-Client,
+einem Record für das Ergebnis und den Records für Anfrage und Antwort der DeepSeek-API.
 
 ## Start
 
@@ -36,27 +36,27 @@ curl -X POST localhost:8080/api/extract \
 Antwort für die p.how-Anzeige:
 
 ```json
-{"company":"p.how GmbH","stack":["Java","Spring Boot","Angular"],"salaryMinYearly":55356,"remote":"hybrid","location":"Wien"}
+{"company":"p.how GmbH","stack":["Java","Spring Boot","Hibernate","PostgreSQL","Angular","TypeScript","Flutter","Kotlin Multiplatform","Python","Docker","Kubernetes","ELK-Stack","LLM-APIs"],"salaryMinYearly":55356,"remote":"hybrid","location":"Wien"}
 ```
 
 Dazu im Log:
 
 ```
-DeepSeek usage: prompt_tokens=414 prompt_cache_hit_tokens=0 completion_tokens=47 cost=0.000090 EUR
+DeepSeek usage: prompt_tokens=1937 prompt_cache_hit_tokens=0 completion_tokens=95 cost=0.000348 USD
 ```
 
-Beim zweiten Aufruf greift DeepSeeks Prompt-Cache für den System-Prompt, die Kosten fallen um gut
-40 Prozent:
+Beim zweiten Aufruf derselben Anzeige kommt der gleiche Anfang aus dem Cache; verschiedene Anzeigen
+teilen sich nur den System-Prompt:
 
 ```
-DeepSeek usage: prompt_tokens=414 prompt_cache_hit_tokens=256 completion_tokens=47 cost=0.000053 EUR
+DeepSeek usage: prompt_tokens=1937 prompt_cache_hit_tokens=1792 completion_tokens=95 cost=0.000084 USD
 ```
 
 Felder, die in der Anzeige nicht vorkommen, sind `null` — das Modell soll nichts raten.
 `salaryMinYearly` ist Jahresbrutto in EUR (Monatsangaben × 14), `remote` ist `"remote"`, `"hybrid"`,
 `"onsite"` oder `null`. Die Preise pro 1 Mio. Tokens stehen als Properties in
-`application.properties` (`deepseek.price.*`) und gelten für `deepseek-flash` außerhalb der
-Spitzenzeit.
+`application.properties` (`deepseek.price.*`), sind in USD und gelten für `deepseek-flash`
+außerhalb der Spitzenzeit.
 
 ## Arbeitsweise
 
@@ -76,11 +76,14 @@ erklärt werden müssen.
 
 ## Nächste Schritte
 
-- Fehlerbehandlung: API-Fehler und unbrauchbare Modellantworten als sinnvolle HTTP-Statuscodes
-  statt als 500
-- Tool Calling gegen PostgreSQL, damit das Modell extrahierte Anzeigen ablegen und abfragen kann
-- Messlauf mit 20 von Hand beschrifteten Anzeigen, um die Extraktionsqualität zu beziffern
-- Angular-Oberfläche mit Streaming, damit die Felder beim Extrahieren einzeln erscheinen
+- Fehlerbehandlung: die Antwort gegen das Schema prüfen, bei Unsinn einmal neu fragen, sonst `null`;
+  401, 402 und Timeout als klare Statuscodes
+- Ergebnis samt Tokens und Kosten in PostgreSQL speichern, Namen von Ansprechpartnern vor dem
+  Request entfernen
+- Messlauf: 20 von Hand beschriftete Anzeigen, zwei Prompt-Fassungen gegeneinander, Trefferquote und
+  Kosten als Tabelle
+- Tool Calling: Das Modell fragt die gespeicherten Anzeigen selbst ab
+- Angular-Oberfläche mit Streaming
 
 ## Aufbau
 

@@ -1,23 +1,144 @@
-Java Developer (m/w/d) — p.how GmbH
-
-Wir sind die p.how GmbH, eine Softwareagentur im 7. Bezirk in Wien, und bauen
-Fachanwendungen für Kunden aus Industrie und öffentlicher Verwaltung.
-
-Deine Aufgaben
-- Weiterentwicklung unserer Backend-Services mit Java und Spring Boot
-- Mitarbeit am Frontend auf Basis von Angular
-- Code Reviews und technische Abstimmung im Team
-
-Das bringst du mit
-- Mehrjährige Erfahrung in der Java-Entwicklung
-- Sicherer Umgang mit relationalen Datenbanken
-- Sehr gute Deutschkenntnisse
-
-Unser Angebot
-- 2 Tage Homeoffice pro Woche, die übrigen Tage im Büro in Wien
-- Flexible Arbeitszeiten, kein All-in-Vertrag
-- Für diese Position bieten wir ein Bruttomonatsgehalt ab EUR 3.954,-
-  bei Vollzeit (38,5 Stunden). Bei entsprechender Qualifikation und
-  Erfahrung ist mehr möglich.
-
-Wir freuen uns auf deine Bewerbung an jobs@p-how.example.
+karriere.at/jobs/10030468
+Fullstack-Entwickler:in Java / Angular (Al-assisted Development)
+Über den Job
+Anstellungsart
+Vollzeit (Festanstellung)
+Gehalt
+ab 3.954 EUR monatlich
+Positionsebene
+Berufserfahrung
+Arbeitsmodell
+Hybrid
+Dienstort
+Wien 21. Bezirk (Floridsdorf)
+Berufsfelder
+IT, EDV
+Offene Stellen
+1 Stelle offen für diese Position
+Über das Unternehmen
+Arbeitgeber
+p.how GmbH
+Mitarbeiter*innenanzahl
+11 - 30 Mitarbeiter*innen
+Standorte
+Wien
+Wir entwickeln seit 2015 Individualsoftware für den Mittelstand und Konzerne, dazu drei eigene Produkte. Wir suchen jemanden, der Features überwiegend baut, indem er KI-Agenten anleitet. Dass dabei weniger selbst getippt wird, ist für uns in Ordnung. Wer den Code aber nicht beurteilen kann, kommt bei uns nicht weit.
+Aufgaben
+Features in unseren Produkten und Kundenprojekten mit KI-Werkzeugen umsetzen und für das Ergebnis geradestehen.
+An unserem Werkzeugkasten mitarbeiten und ihn weiterbringen.
+Dafür sorgen, dass generierter Code denselben Maßstäben genügt wie handgeschriebener.
+Die Anweisungen und Kontexte, mit denen die Agenten arbeiten, im Repository pflegen, damit sie nachvollziehbar und wiederverwendbar bleiben.
+Einschätzen, welches Modell wofür sinnvoll ist, und bei unbeaufsichtigten Aufrufen in ausgelieferter Software Testfälle, Kosten und Antwortzeiten im Blick behalten.
+Festlegen, was passieren soll, wenn ein Modell Unsinn liefert oder personenbezogene Daten im Spiel sind.
+In Kundenprojekten einschätzen, ob ein Sprachmodell die richtige Lösung ist. Manchmal ist es das nicht, und dann muss man das dem Kunden auch sagen können.
+Was du herausfindest, im Team weitergeben.
+Anforderungen
+Mit diesen Technologien wirst du arbeiten
+LLM-APIs sowie Agenten- und Assistenzwerkzeuge für die Entwicklung
+Java, Spring Boot, Hibernate, PostgreSQL im Backend
+Angular und TypeScript im Frontend, Flutter und Kotlin Multiplatform für Mobile
+Python für Eval- und Auswertungswerkzeuge
+Docker, Kubernetes und ELK-Stack im Betrieb
+Dein Profil
+Mindestens zwei Jahre einschlägige Berufserfahrung in der Softwareentwicklung.
+Du kannst Java- und Angular-Code lesen, im Review beurteilen und korrigieren. Ob du ihn selbst schreibst oder generieren lässt, ist uns gleich, solange du für das Ergebnis geradestehst. PostgreSQL solltest du auch schon von innen gesehen haben.
+Du arbeitest schon agentengestützt und kannst erklären, wie dein Arbeitsablauf aussieht und wo er an Grenzen stößt.
+Du hast LLM-APIs auch programmatisch angebunden, also Tool Calling, strukturierte Ausgaben, Streaming, und du weißt, was ein Request kostet.
+Du kannst mit Messwerten belegen, dass eine Änderung am Prompt etwas verbessert hat.
+Sehr gute Deutschkenntnisse in Wort und Schrift, weil unsere Kunden und Workshops deutsch sind. Englisch für alles Technische.
+Von Vorteil
+Abgeschlossene Ausbildung im IT-Bereich.
+Erfahrung mit Agenten-Architekturen oder mit dem Model Context Protocol.
+Du hast mit sensiblen Daten gearbeitet und weißt, was die DSGVO dabei verlangt.
+Bereitschaft, sich in fachliche Regelwerke einzulesen. Unsere Domänen sind reguliert, von der SURE-Zertifizierung bis zur Trinkwasserverordnung.
+Requirements Engineering, gern nach IREB. Wir arbeiten nach diesem Standard.
+Wir bieten dir
+Beim Entwickeln mit KI sind wir in Österreich Vorreiter. Du musst hier niemanden davon überzeugen, dass das der richtige Weg ist.
+Du arbeitest von Anfang an mit KI-Werkzeugen, ohne dich dafür rechtfertigen zu müssen. Wichtig ist uns, dass das Ergebnis hält und du erklären kannst, warum es so gebaut ist.
+Unsere Produkte sind in Betrieb und die Kundenprojekte laufen. Was du baust, ist in einigen Wochen bei jemandem im Einsatz.
+Flexible Arbeitszeiten, zwei Bürotage und drei Tage Homeoffice pro Woche.
+Bei uns sind die Wege kurz. Du redest direkt mit der Geschäftsführung, eine Freigabekette gibt es nicht.
+Du bekommst die Hardware, mit der du arbeiten willst, und Zugang zu den KI-Werkzeugen, die wir gerade für die besten halten. Was das ist, prüfen wir laufend neu.
+Eine Weiterbildung pro Jahr und ein zweitägiges firmeninternes Seminar, beides in der Arbeitszeit.
+Team-Events und Fitnessangebote.
+Eine unbefristete Stelle in einer Firma, die seit 2015 aus eigener Kraft wächst und keinem Investor Quartalszahlen liefern muss.
+Detaillierte Angaben zur Stelle
+Vollzeit (Festanstellung)
+Montag bis Freitag
+38,5 Stunden
+60 % Homeoffice
+Dienstort
+Wien 21. Bezirk (Floridsdorf)
+Erforderliche Kenntnisse
+Artificial Intelligence
+Java
+Angular
+PostgreSQL
+Spring Boot
+Docker
+Nice-To-Have Kenntnisse
+Python
+Kubernetes
+ELK-Stack
+Erforderliche Sprachen
+Deutsch C2
+Englisch B1
+Detaillierte Angaben zur Stelle
+Vollzeit (Festanstellung)
+Montag bis Freitag
+38,5 Stunden
+60 % Homeoffice
+Dienstort
+Wien 21. Bezirk (Floridsdorf)
+Erforderliche Kenntnisse
+Artificial Intelligence
+Java
+Angular
+PostgreSQL
+Spring Boot
+Docker
+Nice-To-Have Kenntnisse
+Python
+Kubernetes
+ELK-Stack
+Erforderliche Sprachen
+Deutsch C2
+Englisch B1
+Gehalt
+Für diese Position gilt ein Mindestgehalt von
+ab EUR 3.954,- brutto monatlich
+(kollektivvertragliches Mindestgehalt brutto) auf Basis einer Vollzeitbeschäftigung mit 38,5 Stunden, 14 Mal im Jahr. Wenn du mehr mitbringst, zahlen wir mehr.
+KV Mindestgehalt 3.954 EUR
+Überstunden
+Anfallende Überstunden werden in Form von Zeitausgleich abgegolten.
+Benefits
+Aus- und Weiterbildung
+Firmenhandy
+Firmennotebook
+Flexible Arbeitszeiten
+Getränke
+Home Office
+Team-Events
+Bildungskarenz/Auszeit
+Hunde geduldet
+Alle Benefits anzeigen Weniger Benefits anzeigen
+Aus- und Weiterbildung
+Firmenhandy
+Firmennotebook
+Flexible Arbeitszeiten
+Getränke
+Home Office
+Team-Events
+Bildungskarenz/Auszeit
+Hunde geduldet
+Alle Benefits anzeigen Weniger Benefits anzeigen
+Das Laden von Videos wird durch die aktuellen Datenschutzeinstellungen blockiert.
+Alle Infos zur Bewerbung
+Gewünschte Bewerbungsunterlagen:
+Lebenslauf
+Motivationsschreiben
+Wir freuen uns über:
+Deinen Lebenslauf.
+Ein kurzes Motivationsschreiben.
+Ein Beispiel aus deiner Arbeit: woran du gearbeitet hast, wie dein Arbeitsablauf mit KI dabei ausgesehen hat und wie du gemerkt hast, dass das Ergebnis trägt. Ein Repository oder ein Eval-Report ist dafür genauso willkommen wie ein paar Absätze Text.
+www.phow.solutions

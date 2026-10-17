@@ -9,7 +9,7 @@ Diese Punkte unterscheiden sich von Boot 3 und sind die üblichen Fehlerquellen:
 
 - **Jackson 3**: Klassen kommen aus `tools.jackson.*` (z. B. `tools.jackson.databind.ObjectMapper`),
   **nur** die Annotationen bleiben in `com.fasterxml.jackson.annotation` (`@JsonProperty` usw.).
-  Jackson-3-Exceptions sind unchecked, also kein `try`/`catch` um `readValue` nötig.
+  Jackson-3-Exceptions sind unchecked.
 - **RestClient**: kommt aus `spring-boot-starter-restclient` (eigenes Starter-Artefakt in Boot 4,
   nicht mehr Teil des Web-Starters). `RestClient.Builder` injizieren, nicht selbst bauen.
 - **Web-Starter** heißt `spring-boot-starter-webmvc`, der Test-Starter `spring-boot-starter-webmvc-test`.
@@ -22,6 +22,7 @@ Diese Punkte unterscheiden sich von Boot 3 und sind die üblichen Fehlerquellen:
 - JSON-Modus (`"response_format": {"type": "json_object"}`) **hängt**, wenn der System-Prompt nicht
   das Wort „JSON" und ein Beispielobjekt enthält. Beides muss drinbleiben.
 - API-Felder sind snake_case → `@JsonProperty` an den Record-Komponenten
+- Preise und damit die gerechneten Kosten sind in **USD**, nicht in EUR
 - Nach jedem Aufruf `usage` loggen: `prompt_tokens`, `prompt_cache_hit_tokens`, `completion_tokens`
   und die daraus gerechneten Kosten
 
@@ -31,3 +32,7 @@ Diese Punkte unterscheiden sich von Boot 3 und sind die üblichen Fehlerquellen:
   `spring.config.import=optional:file:.env[.properties]` eingelesen und ist nicht eingecheckt.
 - Wenig Code: Controller, Client, Records. Keine Service-Schicht „auf Vorrat", kein Spring AI.
 - Was nicht in der Anzeige steht, ist `null` — das Modell darf nichts raten.
+- Beispieldaten sind entweder echt und mit Quelle belegt oder erkennbar erfunden. Erfundene Daten
+  werden nie einer echten Firma zugeschrieben.
+- Tests rufen DeepSeek nie live auf.
+- Für `./mvnw verify` muss Docker laufen.
