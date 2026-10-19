@@ -13,6 +13,17 @@ Diese Punkte unterscheiden sich von Boot 3 und sind die üblichen Fehlerquellen:
 - **RestClient**: kommt aus `spring-boot-starter-restclient` (eigenes Starter-Artefakt in Boot 4,
   nicht mehr Teil des Web-Starters). `RestClient.Builder` injizieren, nicht selbst bauen.
 - **Web-Starter** heißt `spring-boot-starter-webmvc`, der Test-Starter `spring-boot-starter-webmvc-test`.
+- **Test-Slices liegen pro Modul**, nicht mehr unter `org.springframework.boot.test.autoconfigure.*`:
+  `@WebMvcTest` aus `org.springframework.boot.webmvc.test.autoconfigure`, `@RestClientTest` aus
+  `org.springframework.boot.restclient.test.autoconfigure` (Artefakt
+  `spring-boot-starter-restclient-test`, scope `test`).
+- **`@MockBean` gibt es nicht mehr** — stattdessen `@MockitoBean` aus
+  `org.springframework.test.context.bean.override.mockito`.
+- **`@RestClientTest` bringt keinen `Validator` mit.** Wer im Client validiert, braucht zusätzlich
+  `@ImportAutoConfiguration(ValidationAutoConfiguration.class)` aus
+  `org.springframework.boot.validation.autoconfigure`, sonst scheitert der Slice am fehlenden Bean.
+- **Timeouts heißen `spring.http.clients.*`** (`connect-timeout`, `read-timeout`). Das
+  Boot-3-`spring.http.client.*` ist veraltet und wird nur noch gemappt.
 
 ## DeepSeek-API
 

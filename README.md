@@ -78,6 +78,41 @@ Felder, die in der Anzeige nicht vorkommen, sind `null` — das Modell soll nich
 `application.properties` (`deepseek.price.*`), sind in USD und gelten für `deepseek-flash`
 außerhalb der Spitzenzeit.
 
+## Fehlerbehandlung
+
+Die Antwort des Modells wird gegen das Schema von `JobPosting` geprüft — Bean Validation, die Regeln
+stehen als Annotationen am Record. `null` bleibt überall erlaubt, geprüft wird nur, was gesetzt ist:
+`company` und `location` dürfen nicht leer sein, `stack` braucht mindestens einen nicht-leeren
+Eintrag, `salaryMinYearly` liegt zwischen 10.000 und 500.000 (das fängt ein vergessenes × 14 ab) und
+`remote` ist `"remote"`, `"hybrid"` oder `"onsite"`.
+
+Passt etwas nicht, wird **einmal** nachgefragt. Verstößt die Antwort gegen eine Regel, gehen
+System-Prompt und Anzeige unverändert noch einmal raus, dahinter die eigene Antwort des Modells und
+eine Bitte um Korrektur, die jeden Verstoß mit Feld, Regel und falschem Wert nennt. War die Antwort
+gar nicht verwertbar — leerer Inhalt, abgeschnitten (`finish_reason: "length"`) oder kein JSON, das
+auf `JobPosting` passt — geht derselbe Request noch einmal raus. Verstößt danach immer noch ein Feld
+gegen seine Regel, wird genau dieses Feld `null`, der Rest bleibt stehen; dazu kommt eine WARN-Zeile
+mit Feld und Wert.
+
+Ein zweiter Versuch kostet also einen zweiten Aufruf. Der ist aber großteils billig: System-Prompt
+und Anzeigentext stehen beim Korrekturversuch unverändert vorne, damit greift der DeepSeek-Cache und
+nur die angehängte Korrekturbitte und die neue Antwort werden voll bezahlt. Usage und Kosten werden
+für jeden einzelnen Aufruf geloggt.
+
+Fehler kommen als `application/problem+json` zurück, nicht als Stacktrace:
+
+| Was passiert                                       | Unsere Antwort | Meldung                                                      |
+| -------------------------------------------------- | -------------- | ------------------------------------------------------------ |
+| Anzeigentext leer oder nur Leerzeichen              | 400            | `Der Anzeigentext ist leer` (ohne DeepSeek-Aufruf)            |
+| DeepSeek 401                                        | 502            | `DeepSeek lehnt den API-Key ab, DEEPSEEK_API_KEY in .env prüfen` |
+| DeepSeek 402                                        | 502            | `DeepSeek-Guthaben ist aufgebraucht`                          |
+| DeepSeek 429 oder 503                               | 503            | `DeepSeek ist überlastet, später noch einmal versuchen`       |
+| übrige 4xx/5xx von DeepSeek                         | 502            | `DeepSeek antwortet mit Status <n>`                           |
+| Timeout oder nicht erreichbar                       | 504            | `DeepSeek ist nicht erreichbar oder antwortet nicht rechtzeitig` |
+| auch der zweite Versuch unbrauchbar                 | 502            | `DeepSeek liefert auch im zweiten Versuch keine brauchbare Antwort` |
+
+Die Timeouts stehen in `application.properties`: 5 s zum Verbinden, 60 s aufs Lesen.
+
 ## Arbeitsweise
 
 Ich plane die Arbeit mit einem eigenen Agenten, der auf meinem Server läuft (OpenClaw mit Claude). Mit ihm habe ich geklärt, welche Felder sich lohnen, wie die DeepSeek-API funktioniert und was ein Aufruf kostet. Die Umsetzung gebe ich dann an eine Claude-Code-Instanz. Die Anforderungen, die an Claude Code gehen, prüfe ich vorher. Was Claude Code in jeder Session über das Projekt wissen muss, steht in der `CLAUDE.md` im Repo.
@@ -90,8 +125,6 @@ Wo der Ablauf an Grenzen stößt: Claude Code kennt vor allem Spring Boot 3. Bei
 
 ## Nächste Schritte
 
-- Fehlerbehandlung: die Antwort gegen das Schema prüfen, bei Unsinn einmal neu fragen, sonst `null`;
-  401, 402 und Timeout als klare Statuscodes
 - Ergebnis samt Tokens und Kosten in PostgreSQL speichern, Namen von Ansprechpartnern vor dem
   Request entfernen
 - Messlauf: 20 von Hand beschriftete Anzeigen, zwei Prompt-Fassungen gegeneinander, Trefferquote und
@@ -104,5 +137,7 @@ Wo der Ablauf an Grenzen stößt: Claude Code kennt vor allem Spring Boot 3. Bei
 | Datei                    | Zweck                                                                    |
 | ------------------------ | ------------------------------------------------------------------------ |
 | `ExtractController.java` | `POST /api/extract`, nimmt `text/plain`, gibt JSON zurück                |
-| `DeepSeekClient.java`    | System-Prompt, HTTP-Aufruf, Usage- und Kosten-Logging, Protokoll-Records |
-| `JobPosting.java`        | Ergebnis-Record = Antwortformat des Endpoints                            |
+| `DeepSeekClient.java`    | System-Prompt, HTTP-Aufruf, Prüfung und zweiter Versuch, Usage- und Kosten-Logging, Protokoll-Records |
+| `JobPosting.java`        | Ergebnis-Record = Antwortformat des Endpoints, Schema-Regeln als Annotationen |
+| `DeepSeekException.java` | Unchecked, trägt den Status, den *wir* antworten, und die Meldung        |
+| `DeepSeekExceptionHandler.java` | `@RestControllerAdvice`, macht daraus `application/problem+json`  |
