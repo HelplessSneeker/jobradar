@@ -36,7 +36,27 @@ curl -X POST localhost:8080/api/extract \
 Antwort für die p.how-Anzeige:
 
 ```json
-{"company":"p.how GmbH","stack":["Java","Spring Boot","Hibernate","PostgreSQL","Angular","TypeScript","Flutter","Kotlin Multiplatform","Python","Docker","Kubernetes","ELK-Stack","LLM-APIs"],"salaryMinYearly":55356,"remote":"hybrid","location":"Wien"}
+{
+  "company": "p.how GmbH",
+  "stack": [
+    "Java",
+    "Spring Boot",
+    "Hibernate",
+    "PostgreSQL",
+    "Angular",
+    "TypeScript",
+    "Flutter",
+    "Kotlin Multiplatform",
+    "Python",
+    "Docker",
+    "Kubernetes",
+    "ELK-Stack",
+    "LLM-APIs"
+  ],
+  "salaryMinYearly": 55356,
+  "remote": "hybrid",
+  "location": "Wien"
+}
 ```
 
 Dazu im Log:
@@ -60,19 +80,13 @@ außerhalb der Spitzenzeit.
 
 ## Arbeitsweise
 
-Plan und Recherche habe ich mit meinem KI-Assistenten gemacht: Welche Felder lohnen sich, wie sieht
-die DeepSeek-API aus, was kostet ein Aufruf. Die Umsetzung lief dann über einen Prompt an Claude
-Code — Controller, Client, Records, Kostenrechnung.
+Ich plane die Arbeit mit einem eigenen Agenten, der auf meinem Server läuft (OpenClaw mit Claude). Mit ihm habe ich geklärt, welche Felder sich lohnen, wie die DeepSeek-API funktioniert und was ein Aufruf kostet. Die Umsetzung gebe ich dann an eine Claude-Code-Instanz. Die Anforderungen, die an Claude Code gehen, prüfe ich vorher. Was Claude Code in jeder Session über das Projekt wissen muss, steht in der `CLAUDE.md` im Repo.
 
-Das Ergebnis habe ich von Hand nachgeprüft, nicht nur überflogen: Die Anzeige nennt ein
-Bruttomonatsgehalt ab EUR 3.954, und 3.954 × 14 = 55.356 — genau der Wert, den der Endpoint
-zurückgibt. Auch die übrigen Felder stimmen mit dem Anzeigentext überein.
+Das Ergebnis prüfe ich selbst und lasse es zusätzlich von meinem Agenten auf dem Server prüfen. Wenn sich die API ändert, rufe ich sie mit einer echten Anzeige auf und rechne nach. Die p.how-Anzeige nennt zum Beispiel ab 3.954 € brutto im Monat, 14-mal im Jahr, und 3.954 × 14 = 55.356 ist genau der Wert, der zurückkommt.
 
-Wo es hakt: Claude Code kennt vor allem Spring Boot 3. Bei Boot 4 sind deshalb Jackson 3
-(`tools.jackson.*`) und der eigene `spring-boot-starter-restclient` die üblichen Stolperstellen —
-dazu der DeepSeek-JSON-Modus, der ohne das Wort „JSON" und ein Beispiel im System-Prompt hängt. Diese
-Fallen stehen in der `CLAUDE.md`, damit sie in jeder Session gelten und nicht jedes Mal neu
-erklärt werden müssen.
+Die zweite Prüfung hat hier schon etwas gefunden. Claude Code hat die Beispielanzeige im Repo nicht von karriere.at übernommen, sondern selbst geschrieben: p.how im 7. statt im 21. Bezirk, die Bewerbungsadresse auf `.example`. Im README stand dazu, ich hätte das Ergebnis an dieser Anzeige von Hand geprüft. Geprüft hatte ich aber gegen die echte Anzeige. Gefunden hat das der Review auf dem Server, beim Abgleich mit karriere.at. Seitdem steht in der `CLAUDE.md`, dass Beispieldaten entweder echt und mit Quelle belegt oder erkennbar erfunden sind.
+
+Wo der Ablauf an Grenzen stößt: Claude Code kennt vor allem Spring Boot 3. Bei Boot 4 sind Jackson 3 (`tools.jackson.*`) und der eigene `spring-boot-starter-restclient` die üblichen Stolperstellen, deshalb stehen sie als Fallen in der `CLAUDE.md`. Auch meine Prüfung der Anforderungen ist nicht lückenlos: Im ersten System-Prompt stand als Beispiel ausgerechnet p.how mit Wien und hybrid, also drei der fünf Felder des Testfalls. Dass alle fünf Felder stimmten, hieß damit wenig. Und von Hand prüfe ich einzelne Anzeigen, nicht alle. Ob eine Prompt-Änderung wirklich etwas verbessert, soll deshalb als Nächstes ein Messlauf zeigen: 20 von Hand beschriftete Anzeigen, zwei Prompt-Fassungen gegeneinander, Trefferquote und Kosten als Tabelle.
 
 ## Nächste Schritte
 
@@ -87,8 +101,8 @@ erklärt werden müssen.
 
 ## Aufbau
 
-| Datei | Zweck |
-| --- | --- |
-| `ExtractController.java` | `POST /api/extract`, nimmt `text/plain`, gibt JSON zurück |
-| `DeepSeekClient.java` | System-Prompt, HTTP-Aufruf, Usage- und Kosten-Logging, Protokoll-Records |
-| `JobPosting.java` | Ergebnis-Record = Antwortformat des Endpoints |
+| Datei                    | Zweck                                                                    |
+| ------------------------ | ------------------------------------------------------------------------ |
+| `ExtractController.java` | `POST /api/extract`, nimmt `text/plain`, gibt JSON zurück                |
+| `DeepSeekClient.java`    | System-Prompt, HTTP-Aufruf, Usage- und Kosten-Logging, Protokoll-Records |
+| `JobPosting.java`        | Ergebnis-Record = Antwortformat des Endpoints                            |
